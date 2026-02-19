@@ -13,7 +13,7 @@ import plotly.graph_objects as go
 
 # ── Page config (MUST be first Streamlit call) ──────────────
 st.set_page_config(
-    page_title="🏅 Summer Olympics Dashboard",
+    page_title=" Summer Olympics Dashboard",
     page_icon="🏅",
     layout="wide",
 )
@@ -85,7 +85,7 @@ df = load_data()
 
 # ── Sidebar ──────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("## 🏅 Olympics Filter Panel")
+    st.markdown("##  Olympics Filter Panel")
     st.markdown("---")
 
     years = sorted(df["Year"].unique())
@@ -95,7 +95,7 @@ with st.sidebar:
         value=(years[0], years[-1]),
     )
 
-    top_n = st.slider("🔢 Top N Countries", min_value=5, max_value=25, value=10, step=5)
+    top_n = st.slider("Top N Countries", min_value=5, max_value=25, value=10, step=5)
 
     all_countries = sorted(df["Country"].unique())
     defaults = [c for c in ["United States", "China", "United Kingdom", "Germany", "Australia"]
@@ -107,7 +107,7 @@ with st.sidebar:
     )
 
     medal_type = st.radio(
-        "🥇 Medal Type",
+        " Medal Type",
         ["Golds", "Silvers", "Bronzes", "Medals"],
         index=3,
     )
@@ -119,7 +119,7 @@ with st.sidebar:
 dff = df[(df["Year"] >= year_range[0]) & (df["Year"] <= year_range[1])].copy()
 
 # ── Page header ──────────────────────────────────────────────
-st.markdown("# 🏅 Summer Olympics Medal Dashboard")
+st.markdown("#  Summer Olympics Medal Dashboard")
 st.markdown(
     "**For sports analysts and Olympic historians** — explore which nations have dominated "
     "the Summer Games, how medal tallies shifted across eras, and which countries convert "
@@ -129,9 +129,9 @@ st.markdown("---")
 
 # ── KPI cards ────────────────────────────────────────────────
 k1, k2, k3, k4 = st.columns(4)
-k1.metric("🗓️ Games Covered",   dff["Year"].nunique())
-k2.metric("🌍 Nations",         dff["Country"].nunique())
-k3.metric("🏅 Total Medals",    f"{int(dff['Medals'].sum()):,}")
+k1.metric(" Games Covered",   dff["Year"].nunique())
+k2.metric(" Nations",         dff["Country"].nunique())
+k3.metric(" Total Medals",    f"{int(dff['Medals'].sum()):,}")
 k4.metric("👑 All-Time Leader", dff.groupby("Country")["Medals"].sum().idxmax())
 
 st.markdown("---")
@@ -199,7 +199,7 @@ c3, c4 = st.columns(2)
 
 # ── Chart 3: Line trend ──────────────────────────────────────
 with c3:
-    st.markdown(f"### 📈 {medal_type} Over Time")
+    st.markdown(f"###  {medal_type} Over Time")
     if selected_countries:
         trend_df = (
             dff[dff["Country"].isin(selected_countries)]
@@ -217,11 +217,11 @@ with c3:
         fig3.update_layout(**layout3)
         st.plotly_chart(fig3, width='stretch')
     else:
-        st.info("👆 Select countries in the sidebar to see trends.")
+        st.info(" Select countries in the sidebar to see trends.")
 
 # ── Chart 4: Bubble scatter ──────────────────────────────────
 with c4:
-    st.markdown("### 🫧 Golds vs Total Medals (size = Bronzes)")
+    st.markdown("###  Golds vs Total Medals (size = Bronzes)")
     s_df = (
         dff.groupby("Country")[["Golds", "Silvers", "Bronzes", "Medals"]]
         .sum()
