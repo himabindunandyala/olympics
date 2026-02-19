@@ -90,7 +90,7 @@ with st.sidebar:
 
     years = sorted(df["Year"].unique())
     year_range = st.select_slider(
-        "📅 Year Range",
+        " Year Range",
         options=years,
         value=(years[0], years[-1]),
     )
@@ -101,7 +101,7 @@ with st.sidebar:
     defaults = [c for c in ["United States", "China", "United Kingdom", "Germany", "Australia"]
                 if c in all_countries]
     selected_countries = st.multiselect(
-        "🌍 Spotlight Countries (trend chart)",
+        " Spotlight Countries (trend chart)",
         options=all_countries,
         default=defaults,
     )
@@ -132,7 +132,7 @@ k1, k2, k3, k4 = st.columns(4)
 k1.metric(" Games Covered",   dff["Year"].nunique())
 k2.metric(" Nations",         dff["Country"].nunique())
 k3.metric(" Total Medals",    f"{int(dff['Medals'].sum()):,}")
-k4.metric("👑 All-Time Leader", dff.groupby("Country")["Medals"].sum().idxmax())
+k4.metric(" All-Time Leader", dff.groupby("Country")["Medals"].sum().idxmax())
 
 st.markdown("---")
 
@@ -143,7 +143,7 @@ c1, c2 = st.columns(2)
 
 # ── Chart 1: Horizontal bar ──────────────────────────────────
 with c1:
-    st.markdown(f"### 🏆 Top {top_n} Countries — {medal_type}")
+    st.markdown(f"###  Top {top_n} Countries — {medal_type}")
     bar_df = (
         dff.groupby("Country")[medal_type]
         .sum()
@@ -173,7 +173,7 @@ with c1:
 
 # ── Chart 2: Stacked bar ─────────────────────────────────────
 with c2:
-    st.markdown(f"### 🥇🥈🥉 Medal Breakdown — Top {top_n}")
+    st.markdown(f"###  Medal Breakdown — Top {top_n}")
     top_names = dff.groupby("Country")["Medals"].sum().nlargest(top_n).index
     comp_df = (
         dff[dff["Country"].isin(top_names)]
@@ -247,7 +247,7 @@ with c4:
 # ROW 3 — Heatmap (full width)
 # ════════════════════════════════════════════════════════════
 st.markdown("---")
-st.markdown("### 🌡️ Medal Heatmap — Top 20 Nations × Decade")
+st.markdown("###  Medal Heatmap — Top 20 Nations × Decade")
 
 dff["Decade"] = (dff["Year"] // 10 * 10).astype(str) + "s"
 top20_idx = dff.groupby("Country")["Medals"].sum().nlargest(20).index
@@ -282,7 +282,7 @@ c5, c6 = st.columns(2)
 
 # ── Chart 6: Donut pie ───────────────────────────────────────
 with c5:
-    st.markdown(f"### 🍩 {medal_type} Share — Top 10")
+    st.markdown(f"###  {medal_type} Share — Top 10")
     pie_df = dff.groupby("Country")[medal_type].sum().nlargest(10).reset_index()
     fig6 = px.pie(
         pie_df, names="Country", values=medal_type,
@@ -329,7 +329,7 @@ with c6:
 
 # ── Raw data expander ────────────────────────────────────────
 st.markdown("---")
-with st.expander("📋 View Raw Filtered Data"):
+with st.expander(" View Raw Filtered Data"):
     cols = [c for c in ["Year","Country","Rank","Golds","Silvers","Bronzes","Medals"] if c in dff.columns]
     st.dataframe(
         dff[cols].sort_values(["Year", "Rank"]).reset_index(drop=True),
